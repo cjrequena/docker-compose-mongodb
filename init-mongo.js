@@ -1,10 +1,12 @@
-db.create(
+db.createUser(
     {
         user: "mongodb",
         pwd: "mongodb",
         roles: [
-            role: "readWrite",
-            db: "testdb"
+            {
+                role: "readWrite",
+                db: "testdb"
+            }
         ]
     }
 )

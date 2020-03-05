@@ -4,6 +4,7 @@
 bin/
 gen/
 target/
+mongo-data/
 
 ###############
 # Java class files
