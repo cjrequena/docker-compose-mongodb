@@ -1,23 +1,37 @@
-#
-#
-version: '3.7'
+version: '3.1'
+
 services:
-  mongodb:
+  mongo:
     image: mongo:latest
-    hostname: mongodb
-    container_name: mongodb
+    container_name: mongo
+    hostname: mongo
+    restart: always
     environment:
-      MONGO_INITDB_DATABASE: testdb
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
-    networks:
-      default:
-    ports:
-      - '27017-27019:27017-27019'
     volumes:
-      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
-      #- mongo-data:/data/db
+      - $PWD/mongo-data:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - mongo
+  #--------------------------------------------------------------------
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    hostname: mongo-express
+    restart: always
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: root
+    ports:
+      - 8081:8081
+    networks:
+      - mongo
+    links:
+      - mongo
 networks:
-  default:
-volumes:
-  mongo-data:
+  mongo:
+    name: mongo
+    driver: bridge
+
